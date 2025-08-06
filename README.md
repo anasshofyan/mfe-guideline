@@ -126,14 +126,16 @@ src/
 │   │   ├── useDebounce.ts
 │   │   └── index.ts
 │   ├── utils/                  # Utility functions
-│   │   ├── api.ts
-│   │   ├── constants.ts
-│   │   ├── helpers.ts
-│   │   ├── validators.ts
+│   │   ├── api.utils.ts
+│   │   ├── validators.utils.ts
+│   │   └── index.ts
+│   ├── constants/                  # Constants
+│   │   ├── number.constants.ts
+│   │   ├── tabs.constants.ts
 │   │   └── index.ts
 │   ├── types/                  # TypeScript type definitions
-│   │   ├── api.ts
-│   │   ├── common.ts
+│   │   ├── api.types.ts
+│   │   ├── common.types.ts
 │   │   └── index.ts
 │   ├── services/               # API services
 │   │   ├── BaseService.ts
