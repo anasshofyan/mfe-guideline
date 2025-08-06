@@ -147,18 +147,18 @@ src/
 ├── features/                   # Feature modules
 │   ├── authentication/
 │   │   ├── components/
-│   │   │   ├── AuthenticationComponentLoginForm/
-│   │   │   │   ├── AuthenticationComponentLoginForm.tsx
-│   │   │   │   ├── AuthenticationComponentLoginForm.test.tsx
-│   │   │   │   ├── AuthenticationComponentLoginForm.stories.tsx
-│   │   │   │   ├── AuthenticationComponentLoginForm.module.scss
+│   │   │   ├── AuthenticationLoginForm/
+│   │   │   │   ├── AuthenticationLoginForm.tsx
+│   │   │   │   ├── AuthenticationLoginForm.test.tsx
+│   │   │   │   ├── AuthenticationLoginForm.stories.tsx
+│   │   │   │   ├── AuthenticationLoginForm.module.scss
 │   │   │   │   └── index.ts
 │   │   │   └── index.ts
 │   │   ├── pages/
-│   │   │   ├── AuthenticationPageLogin/
-│   │   │   │   ├── AuthenticationPageLogin.tsx
-│   │   │   │   ├── AuthenticationPageLogin.test.tsx
-│   │   │   │   ├── AuthenticationPageLogin.module.scss
+│   │   │   ├── AuthenticationLoginPage/
+│   │   │   │   ├── AuthenticationLoginPage.tsx
+│   │   │   │   ├── AuthenticationLoginPage.test.tsx
+│   │   │   │   ├── AuthenticationLoginPage.module.scss
 │   │   │   │   └── index.ts
 │   │   │   └── index.ts
 │   │   ├── hooks/
@@ -168,22 +168,22 @@ src/
 │   │   │   ├── AuthenticationService.ts
 │   │   │   └── index.ts
 │   │   ├── store/
-│   │   │   ├── authenticationSlice.ts
-│   │   │   ├── authenticationAsyncActions.ts
-│   │   │   ├── authenticationSelectors.ts
+│   │   │   ├── authentication.slice.ts
+│   │   │   ├── authentication.asyncActions.ts
+│   │   │   ├── authentication.selectors.ts
 │   │   │   └── index.ts
 │   │   ├── types/
-│   │   │   ├── authentication.ts
+│   │   │   ├── authentication.types.ts
 │   │   │   └── index.ts
 │   │   ├── utils/
-│   │   │   ├── authHelpers.ts
+│   │   │   ├── auth.utils.ts
 │   │   │   └── index.ts
 │   │   ├── locales/
 │   │   │   ├── en.ts
 │   │   │   ├── id.ts
 │   │   │   └── index.ts
 │   │   ├── constants/
-│   │   │   ├── authConstants.ts
+│   │   │   ├── auth.constants.ts
 │   │   │   └── index.ts
 │   │   └── index.ts
 │   └── userProfile/
