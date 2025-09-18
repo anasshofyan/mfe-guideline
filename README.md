@@ -725,85 +725,84 @@ const calculate_total_price = (items: CartItem[]) => {
 
 ```typescript
 // ✅ Recommended structure
-import React, { useState, useEffect, useCallback } from "react";
+// 📦 External
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
+
+// 🧩 Internal/Shared
 import { Button, Input } from "@/shared/components/ui";
 import { validateEmail } from "@/shared/utils";
-import { UserProfileService } from "../services";
-import styles from "./UserProfileComponentEdit.module.scss";
 
-interface UserProfileComponentEditProps {
+// 📂 Local Module
+import { UserProfileService } from "../services";
+import styles from "./UserProfileEdit.module.scss";
+
+// 📝 Types
+interface UserProfile {
+  id: string;
+  email: string;
+}
+interface Props {
   userId: string;
   onSave?: (profile: UserProfile) => void;
-  className?: string;
 }
 
-export const UserProfileComponentEdit: React.FC<
-  UserProfileComponentEditProps
-> = ({ userId, onSave, className }) => {
-  // State declarations
-  const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
+// ⚙️ Constants
+const DEFAULT_ERRORS: Record<string, string> = {};
 
-  // Redux selectors
+// 🗄️ Redux
+import { selectCurrentUser } from "@/store/selectors/user.selectors";
+
+// 🏗️ Component
+export const UserProfileEdit: React.FC<Props> = ({ userId, onSave }) => {
+  // 🎛️ State
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [errors, setErrors] = useState(DEFAULT_ERRORS);
+
+  // 🔎 Redux selectors
   const currentUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
 
-  // Callbacks
+  // 🔮 Computed values
+  const isValid = useMemo(() => profile && validateEmail(profile.email), [profile]);
+
+  // 🖐️ Handlers
   const handleSave = useCallback(async () => {
     if (!profile) return;
-
-    setIsLoading(true);
     try {
       await UserProfileService.update(userId, profile);
       onSave?.(profile);
-    } catch (error) {
+    } catch {
       setErrors({ general: "Failed to save profile" });
-    } finally {
-      setIsLoading(false);
     }
   }, [profile, userId, onSave]);
 
-  // Effects
+  // ⏱️ Effects
   useEffect(() => {
-    const loadProfile = async () => {
+    (async () => {
       try {
         const data = await UserProfileService.getById(userId);
         setProfile(data);
-      } catch (error) {
+      } catch {
         setErrors({ general: "Failed to load profile" });
       }
-    };
-
-    loadProfile();
+    })();
   }, [userId]);
 
-  // Early returns
-  if (!profile) {
-    return <div className={styles.loading}>Loading...</div>;
-  }
+  // 🚪 Early returns
+  if (!profile) return <div>Loading...</div>;
 
-  // Render
+  // 🎨 Render
   return (
-    <div className={`${styles.container} ${className || ""}`}>
-      <form onSubmit={handleSave}>
-        <Input
-          label="Email"
-          value={profile.email}
-          onChange={(value) => setProfile({ ...profile, email: value })}
-          error={errors.email}
-          required
-        />
-        <Button
-          type="submit"
-          loading={isLoading}
-          disabled={!validateEmail(profile.email)}
-        >
-          Save Profile
-        </Button>
-      </form>
-    </div>
+    <form onSubmit={(e) => { e.preventDefault(); handleSave(); }}>
+      <Input
+        label="Email"
+        value={profile.email}
+        onChange={(v) => setProfile({ ...profile, email: v })}
+        error={errors.email}
+      />
+      <Button type="submit" disabled={!isValid}>Save</Button>
+    </form>
   );
 };
 ```
